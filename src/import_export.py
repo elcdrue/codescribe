@@ -1,3 +1,4 @@
+# encoding:utf-8
 # REMEMBER: this is python 2.7
 import os
 import re
@@ -10,18 +11,18 @@ IMPLEMENTATION_DELIMITER_INSERT = "\n" + IMPLEMENTATION_DELIMITER_SPLIT + "\n\n"
 
 
 def write_st(obj, f):
-    f.write(obj.textual_declaration.text)
-    f.write(IMPLEMENTATION_DELIMITER_INSERT)
-    f.write(obj.textual_implementation.text)
+    f.write(obj.textual_declaration.text.encode('utf-8'))
+    f.write(IMPLEMENTATION_DELIMITER_INSERT.encode('utf-8'))
+    f.write(obj.textual_implementation.text.encode('utf-8'))
 
 
 def write_st_decl_only(obj, f):
-    f.write(obj.textual_declaration.text)
+    f.write(obj.textual_declaration.text.encode('utf-8'))
 
 
 def import_st(f, obj):
     f.seek(0)
-    content = str(f.read())
+    content = str(f.read().decode('utf-8'))
     declaration, implementation = content.split(IMPLEMENTATION_DELIMITER_SPLIT)
     obj.textual_declaration.replace(declaration.strip() + "\n")
     obj.textual_implementation.replace(implementation.strip() + "\n")
@@ -29,7 +30,7 @@ def import_st(f, obj):
 
 def import_st_decl_only(f, obj):
     f.seek(0)
-    content = str(f.read())
+    content = str(f.read().decode('utf-8'))
     obj.textual_declaration.replace(content.strip() + "\n")
 
 
@@ -67,7 +68,7 @@ def write_native(obj, path, recursive=False):
         )
 
         f.seek(0)
-        f.write(timestamp_replaced)
+        f.write(timestamp_replaced.encode('utf-8'))
         f.truncate()
 
 
@@ -160,7 +161,7 @@ def import_native(child, dir_path, dir_parent_obj, import_dir_fn):
 
 def export_dut(child_obj, parent_obj, parent_folder_path, export_child_fn):
     with open(os.path.join(parent_folder_path, child_obj.get_name() + ".st"), "w") as f:
-        f.write(child_obj.textual_declaration.text)
+        f.write(child_obj.textual_declaration.text.encode('utf-8'))
 
 
 def import_dut(child, dir_path, dir_parent_obj, import_dir_fn):
